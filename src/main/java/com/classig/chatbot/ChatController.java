@@ -41,6 +41,7 @@ public class ChatController
 
             ChatArea.appendText(formatnow+". "+"Bot: "+bot.answer(text)+"\n");
         }
+        MessageText.clear();
     }
 
     @FXML
