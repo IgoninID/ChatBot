@@ -18,22 +18,22 @@ public class Bot implements IBot{
     {
         patterns.add(Pattern.compile("Привет|привет"));
         patterns.add(Pattern.compile("Что ты можешь\\?|что ты можешь\\?"));
-        patterns.add(Pattern.compile("\\s*\\d+\\s*\\+\\s*\\d+\\s*"));
-        patterns.add(Pattern.compile("\\s*\\d+\\s*\\*\\s*\\d+\\s*"));
-        patterns.add(Pattern.compile("\\s*\\d+\\s*\\:\\s*\\d+\\s*"));
-        patterns.add(Pattern.compile("\\s*\\d+\\s*\\-\\s*\\d+\\s*"));
-        answers.add(List.of("Привет! Я чат бот, чем могу помочь? (Напишите что ты можешь? для показа возможностей)", "Здравствуй, я чат бот, чем могу помочь? (Напишите что ты можешь? для показа возможностей)"));
+        patterns.add(Pattern.compile("\\s*\\-?\\d+\\s*\\+\\s*\\-?\\d+\\s*"));
+        patterns.add(Pattern.compile("\\s*\\-?\\d+\\s*\\*\\s*\\-?\\d+\\s*"));
+        patterns.add(Pattern.compile("\\s*\\-?\\d+\\s*\\:\\s*\\-?\\d+\\s*"));
+        patterns.add(Pattern.compile("\\s*\\-?\\d+\\s*\\-\\s*\\-?\\d+\\s*"));
+        answers.add(List.of("Привет! Я чат бот, чем могу помочь? (Напишите что ты можешь? для показа возможностей)"));
         answers.add(List.of("Сложить/вычесть/умножить/поделить два числа"));
         answers.add(List.of("Результат суммы = "));
-        answers.add(List.of("Результат вычитания = "));
         answers.add(List.of("Результат умножения = "));
         answers.add(List.of("Результат деления = "));
+        answers.add(List.of("Результат вычитания = "));
 
     }
 
-    public String summ(String s)
+    public static String summ(String s)
     {
-        if (s != null)
+        if ((s != null) && (s != ""))
         {
             String wosp = s.trim();
             String[] num = wosp.split("\\+");
@@ -43,21 +43,21 @@ public class Bot implements IBot{
         return "Пустая строка";
     }
 
-    public String mult(String s)
+    public static String mult(String s)
     {
-        if (s != null)
+        if ((s != null) && (s != ""))
         {
             String wosp = s.trim();
             String[] num = wosp.split("\\*");
-            double rez = Double.parseDouble(num[0]) + Double.parseDouble(num[1]);
+            double rez = Double.parseDouble(num[0]) * Double.parseDouble(num[1]);
             return Double.toString(rez);
         }
         return "Пустая строка";
     }
 
-    public String div(String s)
+    public static String div(String s)
     {
-        if (s != null)
+        if ((s != null) && (s != ""))
         {
             String wosp = s.trim();
             String[] num = wosp.split("\\:");
@@ -71,11 +71,12 @@ public class Bot implements IBot{
         return "Пустая строка";
     }
 
-    public String minus(String s)
+    public static String minus(String s)
     {
-        if (s != null)
+        if ((s != null) && (s != ""))
         {
             String wosp = s.trim();
+            // todo вычитание с отрицательными числами
             String[] num = wosp.split("\\-");
             double rez = Double.parseDouble(num[0]) - Double.parseDouble(num[1]);
             return Double.toString(rez);

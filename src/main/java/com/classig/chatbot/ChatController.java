@@ -21,7 +21,7 @@ public class ChatController
     @FXML
     public TextField MessageText;
 
-    Bot bot = new Bot();
+    IBot bot = new Bot();
 
     @FXML
     void onSendClick(ActionEvent event)
