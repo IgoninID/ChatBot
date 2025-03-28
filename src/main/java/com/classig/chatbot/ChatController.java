@@ -1,8 +1,13 @@
 package com.classig.chatbot;
 
+import com.github.prominence.openweathermap.api.OpenWeatherMapClient;
+import com.github.prominence.openweathermap.api.enums.Language;
+import com.github.prominence.openweathermap.api.enums.UnitSystem;
+import com.github.prominence.openweathermap.api.model.weather.Weather;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.apiguardian.api.API;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -13,6 +18,8 @@ import java.time.format.DateTimeFormatter;
 public class ChatController
 {
 
+    private final String API_KEY = "b8ac38c459f72202edfdf776458b8f2b";
+
     public String name;
 
     @FXML
@@ -20,6 +27,8 @@ public class ChatController
 
     @FXML
     public TextField MessageText;
+
+    OpenWeatherMapClient openWeatherMapClient = new OpenWeatherMapClient(API_KEY);
 
     IBot bot = new Bot();
 
