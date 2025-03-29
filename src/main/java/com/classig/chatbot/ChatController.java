@@ -1,13 +1,8 @@
 package com.classig.chatbot;
 
-import com.github.prominence.openweathermap.api.OpenWeatherMapClient;
-import com.github.prominence.openweathermap.api.enums.Language;
-import com.github.prominence.openweathermap.api.enums.UnitSystem;
-import com.github.prominence.openweathermap.api.model.weather.Weather;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import org.apiguardian.api.API;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -15,83 +10,106 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Контроллер чата
+ */
 public class ChatController
 {
-
-    private final String API_KEY = "b8ac38c459f72202edfdf776458b8f2b";
-
+    /**
+     * Поле имя
+     */
     public String name;
 
+    /**
+     * Поле диалога
+     */
     @FXML
     public TextArea ChatArea;
 
+    /**
+     * Поле ввода сообщения
+     */
     @FXML
     public TextField MessageText;
 
-    OpenWeatherMapClient openWeatherMapClient = new OpenWeatherMapClient(API_KEY);
-
+    /**
+     * Чат-бот
+     */
     IBot bot = new Bot();
 
+    /**
+     * Нажатие на кнопку отправить
+     * @param event - событие
+     */
     @FXML
     void onSendClick(ActionEvent event)
     {
-        String text = MessageText.getText();
-        if (!text.isEmpty())
+        String text = MessageText.getText(); // получаем сообщение пользвателя
+        if (!text.isEmpty()) // строка не пустая
         {
-            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime now = LocalDateTime.now(); // текущее дата время
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); //формат даты времени
 
-            String formatnow = now.format(formatter);
+            String formatnow = now.format(formatter); // форматируем дату время
 
-            ChatArea.appendText(formatnow+". "+name+": "+text+"\n");
+            ChatArea.appendText(formatnow+". "+name+": "+text+"\n"); // выводим в окно диалога сообщение пользователя с его именем и датой время
 
-            formatnow = now.format(formatter);
+            formatnow = now.format(formatter); // текущее дата время
 
-            ChatArea.appendText(formatnow+". "+"Bot: "+bot.answer(text)+"\n");
+            ChatArea.appendText(formatnow+". "+"Bot: "+bot.answer(text)+"\n"); // выводим ответ бота в окно диалога
         }
-        MessageText.clear();
+        MessageText.clear(); // очищаем поле ввода сообщения
     }
 
+    /**
+     * Сохранение диалога в файл
+     */
     @FXML
     void onSaveClick()
     {
-        final String H_FILE = name+".txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(H_FILE)))
+        final String H_FILE = name+".txt"; // название файла
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(H_FILE))) // инициализация записи в файл
         {
-            writer.write(ChatArea.getText());
+            writer.write(ChatArea.getText()); // записываем в файл текст из поля диалога
         }
-        catch (IOException e)
+        catch (IOException e) // если не сработал filewriter
         {
-            e.printStackTrace();
+            e.printStackTrace(); // выводим где ошибка
         }
     }
 
+    /**
+     * Загрузка диалога из файла
+     */
     @FXML
     void onLoadClick()
     {
-        final String H_FILE = name+".txt";
-        if (Files.exists(Paths.get(H_FILE)))
+        final String H_FILE = name+".txt"; // название файла
+        if (Files.exists(Paths.get(H_FILE))) // если файл существует
         {
-            try (BufferedReader reader = new BufferedReader(new FileReader(H_FILE)))
+            try (BufferedReader reader = new BufferedReader(new FileReader(H_FILE))) // инициализация чтения файла
             {
-                String line;
-                while ((line = reader.readLine()) != null)
+                String line; // строка текста в файле
+                while ((line = reader.readLine()) != null) // до конца файла
                 {
-                    ChatArea.appendText(line+"\n");
+                    ChatArea.appendText(line+"\n"); // записываем строки в поле диалога
                 }
             }
-            catch (IOException e)
+            catch (IOException e) // если не сработал readline
             {
-                e.printStackTrace();
+                e.printStackTrace(); // выводим где ошибка
             }
         }
     }
 
+    /**
+     * Инициализация окна (то что произойдет при открытии окна чата)
+     */
     @FXML
     void initialize()
     {
-        onLoadClick();
+        onLoadClick(); // загрузка диалога из файла
     }
 
 }

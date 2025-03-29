@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BotTest {
 
+    /**
+     * Проверка сложения двух чисел
+     */
     @Test
     void summ() {
         assertEquals("8.0", Bot.summ("4+4"));
@@ -15,6 +18,9 @@ class BotTest {
         assertEquals("Пустая строка", Bot.summ(""));
     }
 
+    /**
+     * Проверка умножения двух чисел
+     */
     @Test
     void mult() {
         assertEquals("16.0", Bot.mult("4*4"));
@@ -25,6 +31,9 @@ class BotTest {
         assertEquals("Пустая строка", Bot.mult(""));
     }
 
+    /**
+     * Проверка деления двух чисел
+     */
     @Test
     void div() {
         assertEquals("1.0", Bot.div("4:4"));
@@ -36,15 +45,21 @@ class BotTest {
         assertEquals("Пустая строка", Bot.div(""));
     }
 
+    /**
+     * Проверка вычитания двух чисел
+     */
     @Test
     void minus() {
-        assertEquals("0.0", Bot.minus("4-4"));
-        //assertEquals("0.0", Bot.minus("-4--4"));
-        //assertEquals("-8.0", Bot.minus("-4-4"));
-        //assertEquals("8.0", Bot.minus("4--4"));
+        assertEquals("0.0", Bot.minus("4 - 4"));
+        assertEquals("0.0", Bot.minus("-4 - -4"));
+        assertEquals("-8.0", Bot.minus("-4 - 4"));
+        assertEquals("8.0", Bot.minus("4 - -4"));
         assertEquals("Пустая строка", Bot.minus(""));
     }
 
+    /**
+     * Проверка ответа на сообщение пользователя
+     */
     @Test
     void answer() {
         IBot bot = new Bot();
@@ -54,7 +69,7 @@ class BotTest {
         assertEquals("Сложить/вычесть/умножить/поделить два числа, узнать погоду в городе(погода в город(именительный падеж))", bot.answer("что ты можешь?"));
         assertEquals("Результат суммы = 4.0", bot.answer("2+2"));
         assertEquals("??", bot.answer(""));
-        assertEquals("Результат вычитания = 0.0", bot.answer("2-2"));
+        assertEquals("Результат вычитания = 0.0", bot.answer("2 - 2"));
         assertEquals("Результат умножения = 6.0", bot.answer("2*3"));
         assertEquals("Результат деления = 2.0", bot.answer("4:2"));
         assertEquals("Результат деления = Делить на 0 нельзя", bot.answer("4:0"));

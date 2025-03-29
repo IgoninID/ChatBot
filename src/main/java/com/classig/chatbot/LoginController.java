@@ -15,18 +15,31 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Контроллер окна входа
+ */
 public class LoginController {
 
+    /**
+     * Поле ввода имени пользователя
+     */
     @FXML
     TextField LoginText;
 
+    /**
+     * Проверка имени пользователя
+     * Правило ввода: только буквы и пробелы
+     * @param name введенное имя
+     * @return имя пользователя
+     * @throws RuntimeException ошибка если имя неправильное
+     */
     public String setName(String name) throws RuntimeException
     {
-        Pattern pattern = Pattern.compile("[a-zA-Zа-яА-Я\\s]+");
+        Pattern pattern = Pattern.compile("[a-zA-Zа-яА-Я\\s]+"); // паттерн для имени
         Matcher mather = pattern.matcher(name);
-        if (mather.matches())
+        if (mather.matches()) // проверка введенного имени
         {
-            return name;
+            return name; // возвращаем имя
         }
         else
         {
@@ -34,31 +47,38 @@ public class LoginController {
             throw new RuntimeException("Ошибка: неверно введено ФИО пользователя");
         }
     }
+
+    /**
+     * Нажатие кнопки войти
+     * @param actionEvent событие
+     * @throws IOException ошибка
+     */
     @FXML
     public void onLoginButtonClick(ActionEvent actionEvent) throws IOException
     {
         try
         {
-            String inputname = setName(LoginText.getText());
-            ChatController chatController = new ChatController();
-            chatController.name = inputname;
-            FXMLLoader fxmlLoader = new FXMLLoader(ChatBotApplication.class.getResource("chat-view.fxml"));
-            fxmlLoader.setController(chatController);
-            Scene scene = new Scene(fxmlLoader.load(), 518.0, 365.0);
-            Stage stage = new Stage();
-            stage.setTitle("Chat");
+            String inputname = setName(LoginText.getText()); //проверка введенного имени
+            ChatController chatController = new ChatController(); // выделяем память под контроллер чата
+            chatController.name = inputname; // передаем в контроллер имя пользователя
+            FXMLLoader fxmlLoader = new FXMLLoader(ChatBotApplication.class.getResource("chat-view.fxml")); // создаем загрузчик для окна чата
+            fxmlLoader.setController(chatController); // указываем контроллер чата для загрузчика чата
+            Scene scene = new Scene(fxmlLoader.load(), 518.0, 365.0); // указываем размеры окна чата
+            Stage stage = new Stage(); // выделяем память под окно чата
+            stage.setTitle("Chat"); // заголовок окна чата
             stage.setScene(scene);
+            // создаем событие при закрытии окна чата
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent windowEvent) {
-                    chatController.onSaveClick();
-                    Platform.exit();
+                    chatController.onSaveClick(); // Сохраняем диалог с ботом
+                    Platform.exit(); // закрываем приложение
                 }
             });
-            stage.show();
-            LoginText.getScene().getWindow().hide();
+            stage.show(); // показываем окно чата
+            LoginText.getScene().getWindow().hide(); // скрываем окно входа
         }
-        catch (RuntimeException e)
+        catch (RuntimeException e) // если ошибка
         {
             System.out.println(e.getMessage());
             Alert error = new Alert(Alert.AlertType.ERROR);
