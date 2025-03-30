@@ -19,7 +19,9 @@ public class Bot implements IBot{
     /**
      * APIKEY для запросов в OpenWeather
      */
-    private final String API_KEY = "b8ac38c459f72202edfdf776458b8f2b";
+    private final String API_KEY = "";          /// .venv
+
+    ///  key=tetretretrertert5464654
 
     /**
      * Клиент для запросов в OpenWeather
