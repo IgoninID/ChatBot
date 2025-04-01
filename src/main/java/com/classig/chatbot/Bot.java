@@ -50,7 +50,7 @@ public class Bot implements IBot{
     {
         patterns.add(Pattern.compile("Привет|привет"));
         patterns.add(Pattern.compile("Что ты можешь\\?|что ты можешь\\?"));
-        patterns.add(Pattern.compile("\\s*\\-?\\d+\\s*\\+\\s*\\-?\\d+\\s*")); // сложение двух чисел
+        patterns.add(Pattern.compile("\\s*\\-?\\d+\\s*\\+\\s*\\-?\\d+\\s*")); // сложение двух чисел (\ перед \s - экранирование для символа регулярного выражения )
         patterns.add(Pattern.compile("\\s*\\-?\\d+\\s*\\*\\s*\\-?\\d+\\s*")); // умножение двух чисел
         patterns.add(Pattern.compile("\\s*\\-?\\d+\\s*\\:\\s*\\-?\\d+\\s*")); // деление двух чисел
         patterns.add(Pattern.compile("\\s*\\-?\\d+\\s+\\-\\s+\\-?\\d+\\s*")); // вычитание двух чисел
