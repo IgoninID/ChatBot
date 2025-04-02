@@ -4,7 +4,6 @@ import com.github.prominence.openweathermap.api.OpenWeatherMapClient;
 import com.github.prominence.openweathermap.api.enums.Language;
 import com.github.prominence.openweathermap.api.enums.UnitSystem;
 import com.github.prominence.openweathermap.api.model.weather.Weather;
-import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
 import java.io.*;
@@ -45,7 +44,7 @@ public class Bot implements IBot{
     /**
      * APIKEY для запросов в OpenWeather
      */
-    private final String API_KEY = loadapi("api_key.txt");          /// .venv
+    private final String API_KEY = loadapi("api_key.txt");          /// .env
 
     ///  key=tetretretrertert5464654
 
@@ -76,11 +75,11 @@ public class Bot implements IBot{
     {
         patterns.add(Pattern.compile("Привет|привет"));
         patterns.add(Pattern.compile("Что ты можешь\\?|что ты можешь\\?"));
-        patterns.add(Pattern.compile("\\s*\\-?\\d+\\s*\\+\\s*\\-?\\d+\\s*")); // сложение двух чисел (\ перед \s - экранирование для символа регулярного выражения )
-        patterns.add(Pattern.compile("\\s*\\-?\\d+\\s*\\*\\s*\\-?\\d+\\s*")); // умножение двух чисел
-        patterns.add(Pattern.compile("\\s*\\-?\\d+\\s*\\:\\s*\\-?\\d+\\s*")); // деление двух чисел
-        patterns.add(Pattern.compile("\\s*\\-?\\d+\\s+\\-\\s+\\-?\\d+\\s*")); // вычитание двух чисел
-        patterns.add(Pattern.compile("Погода в [а-яА-я]+|погода в [а-яА-Я]+")); // запрос погоды в городе
+        patterns.add(Pattern.compile("\\s*\\-?\\d+\\s*\\+\\s*\\-?\\d+\\s*")); // сложение двух чисел (\ перед \s - экранирование для метасимвола регулярного выражения )
+        patterns.add(Pattern.compile("\\s*\\-?\\d+\\s*\\*\\s*\\-?\\d+\\s*")); // умножение двух чисел например 2243+2423
+        patterns.add(Pattern.compile("\\s*\\-?\\d+\\s*\\:\\s*\\-?\\d+\\s*")); // деление двух чисел 2243*2423
+        patterns.add(Pattern.compile("\\s*\\-?\\d+\\s+\\-\\s+\\-?\\d+\\s*")); // вычитание двух чисел 2243:2423
+        patterns.add(Pattern.compile("Погода в [а-яА-я]+|погода в [а-яА-Я]+")); // запрос погоды в городе 2243 - 2423
         answers.add(List.of("Привет! Я чат бот, чем могу помочь? (Напишите что ты можешь? для показа возможностей)")); // ответ на привет
         answers.add(List.of("Сложить/вычесть/умножить/поделить два числа, узнать погоду в городе(погода в город(именительный падеж))")); // ответ на что ты можешь?
         answers.add(List.of("Результат суммы = ")); // ответ на запрос суммы
@@ -229,7 +228,7 @@ public class Bot implements IBot{
     }
 
     /**
-     * Статический метод сохранения диалога в файл
+     * Статический метод сохранения диалога в текстовый файл с именем пользователя+.txt
      * @param name имя пользователя
      * @param ChatArea поле с диалогом чата
      */
@@ -247,7 +246,7 @@ public class Bot implements IBot{
     }
 
     /**
-     * Статический метод загрузки диалога из файла
+     * Статический метод загрузки диалога из текстового файла с именем пользователя+.txt
      * @param name имя пользователя
      * @param ChatArea поле с диалогом чата
      */
