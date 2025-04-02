@@ -22,9 +22,30 @@ import java.util.regex.Pattern;
 public class Bot implements IBot{
 
     /**
+     * Загрузка apikey из файла
+     * @param namef - имя файла с api ключом
+     * @return api ключ
+     */
+    String loadapi(String namef)
+    {
+        if (Files.exists(Paths.get(namef))) // если файл существует
+        {
+            try (BufferedReader reader = new BufferedReader(new FileReader(namef))) // инициализация чтения файла
+            {
+                return reader.readLine();
+            }
+            catch (IOException e) // если не сработал readline
+            {
+                e.printStackTrace(); // выводим где ошибка
+            }
+        }
+        return "no files";
+    }
+
+    /**
      * APIKEY для запросов в OpenWeather
      */
-    private final String API_KEY = "";          /// .venv
+    private final String API_KEY = loadapi("api_key.txt");          /// .venv
 
     ///  key=tetretretrertert5464654
 
