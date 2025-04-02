@@ -207,6 +207,11 @@ public class Bot implements IBot{
         return "??"; // если нет совпадений
     }
 
+    /**
+     * Статический метод сохранения диалога в файл
+     * @param name имя пользователя
+     * @param ChatArea поле с диалогом чата
+     */
     public static void Save(String name, TextArea ChatArea)
     {
         final String H_FILE = name+".txt"; // название файла
@@ -220,6 +225,11 @@ public class Bot implements IBot{
         }
     }
 
+    /**
+     * Статический метод загрузки диалога из файла
+     * @param name имя пользователя
+     * @param ChatArea поле с диалогом чата
+     */
     public static void Load(String name, TextArea ChatArea)
     {
         final String H_FILE = name+".txt"; // название файла
