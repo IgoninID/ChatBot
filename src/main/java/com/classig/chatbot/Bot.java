@@ -4,7 +4,12 @@ import com.github.prominence.openweathermap.api.OpenWeatherMapClient;
 import com.github.prominence.openweathermap.api.enums.Language;
 import com.github.prominence.openweathermap.api.enums.UnitSystem;
 import com.github.prominence.openweathermap.api.model.weather.Weather;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -200,5 +205,38 @@ public class Bot implements IBot{
             }
         }
         return "??"; // если нет совпадений
+    }
+
+    public static void Save(String name, TextArea ChatArea)
+    {
+        final String H_FILE = name+".txt"; // название файла
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(H_FILE))) // инициализация записи в файл
+        {
+            writer.write(ChatArea.getText()); // записываем в файл текст из поля диалога
+        }
+        catch (IOException e) // если не сработал filewriter
+        {
+            e.printStackTrace(); // выводим где ошибка
+        }
+    }
+
+    public static void Load(String name, TextArea ChatArea)
+    {
+        final String H_FILE = name+".txt"; // название файла
+        if (Files.exists(Paths.get(H_FILE))) // если файл существует
+        {
+            try (BufferedReader reader = new BufferedReader(new FileReader(H_FILE))) // инициализация чтения файла
+            {
+                String line; // строка текста в файле
+                while ((line = reader.readLine()) != null) // до конца файла
+                {
+                    ChatArea.appendText(line+"\n"); // записываем строки в поле диалога
+                }
+            }
+            catch (IOException e) // если не сработал readline
+            {
+                e.printStackTrace(); // выводим где ошибка
+            }
+        }
     }
 }

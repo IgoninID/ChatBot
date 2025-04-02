@@ -68,15 +68,7 @@ public class ChatController
     @FXML
     void onSaveClick()
     {
-        final String H_FILE = name+".txt"; // название файла
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(H_FILE))) // инициализация записи в файл
-        {
-            writer.write(ChatArea.getText()); // записываем в файл текст из поля диалога
-        }
-        catch (IOException e) // если не сработал filewriter
-        {
-            e.printStackTrace(); // выводим где ошибка
-        }
+        Bot.Save(name, ChatArea);
     }
 
     /**
@@ -85,22 +77,7 @@ public class ChatController
     @FXML
     void onLoadClick()
     {
-        final String H_FILE = name+".txt"; // название файла
-        if (Files.exists(Paths.get(H_FILE))) // если файл существует
-        {
-            try (BufferedReader reader = new BufferedReader(new FileReader(H_FILE))) // инициализация чтения файла
-            {
-                String line; // строка текста в файле
-                while ((line = reader.readLine()) != null) // до конца файла
-                {
-                    ChatArea.appendText(line+"\n"); // записываем строки в поле диалога
-                }
-            }
-            catch (IOException e) // если не сработал readline
-            {
-                e.printStackTrace(); // выводим где ошибка
-            }
-        }
+        Bot.Load(name, ChatArea);
     }
 
     /**
