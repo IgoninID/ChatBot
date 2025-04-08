@@ -20,6 +20,20 @@ import java.util.regex.Pattern;
  */
 public class Bot implements IBot{
 
+    public static final List<String> Messages = new ArrayList<>();
+
+    @Override
+    public void setMessages(String s)
+    {
+        Messages.add(s);
+    }
+
+    @Override
+    public String getMessages(int i)
+    {
+        return Messages.get(i);
+    }
+
     /**
      * Загрузка apikey из файла
      * @param namef - имя файла с api ключом
@@ -230,14 +244,17 @@ public class Bot implements IBot{
     /**
      * Статический метод сохранения диалога в текстовый файл с именем пользователя+.txt
      * @param name имя пользователя
-     * @param ChatArea поле с диалогом чата
      */
-    public static void Save(String name, TextArea ChatArea)
+    public static void Save(String name)
     {
         final String H_FILE = name+".txt"; // название файла
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(H_FILE))) // инициализация записи в файл
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(H_FILE, false))) // инициализация записи в файл
         {
-            writer.write(ChatArea.getText()); // записываем в файл текст из поля диалога
+            for (int i = 0; i < Messages.size(); i++)
+            {
+                writer.write(Messages.get(i)); // записываем в файл текст из поля диалога
+                writer.newLine();
+            }
         }
         catch (IOException e) // если не сработал filewriter
         {
@@ -248,9 +265,8 @@ public class Bot implements IBot{
     /**
      * Статический метод загрузки диалога из текстового файла с именем пользователя+.txt
      * @param name имя пользователя
-     * @param ChatArea поле с диалогом чата
      */
-    public static void Load(String name, TextArea ChatArea)
+    public static void Load(String name)
     {
         final String H_FILE = name+".txt"; // название файла
         if (Files.exists(Paths.get(H_FILE))) // если файл существует
@@ -260,7 +276,7 @@ public class Bot implements IBot{
                 String line; // строка текста в файле
                 while ((line = reader.readLine()) != null) // до конца файла
                 {
-                    ChatArea.appendText(line+"\n"); // записываем строки в поле диалога
+                    Messages.add(line+"\n"); // записываем строки в поле диалога
                 }
             }
             catch (IOException e) // если не сработал readline

@@ -63,18 +63,27 @@ public class ChatController
      * Сохранение диалога в файл
      */
     @FXML
-    void onSaveClick()
+    void onSave()
     {
-        Bot.Save(name, ChatArea);
+        Bot.Messages.clear();
+        String s = ChatArea.getText();
+        String[] s1 = s.split("\n");
+        for (int i = 0; i < s1.length; i++)
+        {
+            bot.setMessages(s1[i]);
+        }
+        Bot.Save(name);
     }
 
     /**
      * Загрузка диалога из файла
      */
     @FXML
-    void onLoadClick()
+    void onLoad()
     {
-        Bot.Load(name, ChatArea);
+        Bot.Load(name);
+        for (int i = 0; i < Bot.Messages.size(); i++)
+        ChatArea.appendText(bot.getMessages(i));
     }
 
     /**
@@ -83,7 +92,7 @@ public class ChatController
     @FXML
     void initialize()
     {
-        onLoadClick(); // загрузка диалога из файла
+        onLoad(); // загрузка диалога из файла
     }
 
 }

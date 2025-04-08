@@ -10,4 +10,8 @@ public interface IBot {
      * @return ответ бота
      */
     String answer(String message);
+
+    void setMessages(String s);
+
+    String getMessages(int i);
 }

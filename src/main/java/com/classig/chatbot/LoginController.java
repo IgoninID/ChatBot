@@ -71,7 +71,7 @@ public class LoginController {
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent windowEvent) {
-                    chatController.onSaveClick(); // Сохраняем диалог с ботом
+                    chatController.onSave(); // Сохраняем диалог с ботом
                     Platform.exit(); // закрываем приложение
                 }
             });
