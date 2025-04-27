@@ -2,6 +2,9 @@ package com.classig.chatbot;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BotTest {
@@ -63,17 +66,23 @@ class BotTest {
     @Test
     void answer() {
         IBot bot = new Bot();
-        assertEquals("Привет! Я чат бот, чем могу помочь? (Напишите что ты можешь? для показа возможностей)", bot.answer("Привет"));
-        assertEquals("Привет! Я чат бот, чем могу помочь? (Напишите что ты можешь? для показа возможностей)", bot.answer("привет"));
-        assertEquals("Сложить/вычесть/умножить/поделить два числа, узнать погоду в городе(погода в город(именительный падеж))", bot.answer("Что ты можешь?"));
-        assertEquals("Сложить/вычесть/умножить/поделить два числа, узнать погоду в городе(погода в город(именительный падеж))", bot.answer("что ты можешь?"));
-        assertEquals("Результат суммы = 4.0", bot.answer("2+2"));
-        assertEquals("??", bot.answer(""));
-        assertEquals("Результат вычитания = 0.0", bot.answer("2 - 2"));
-        assertEquals("Результат умножения = 6.0", bot.answer("2*3"));
-        assertEquals("Результат деления = 2.0", bot.answer("4:2"));
-        assertEquals("Результат деления = Делить на 0 нельзя", bot.answer("4:0"));
-        assertEquals("??", bot.answer("что?"));
+        LocalDateTime now = LocalDateTime.now(); // текущее дата время
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); //формат даты времени
+
+        String formatnow = now.format(formatter); // форматируем дату время
+
+        assertEquals(formatnow+". Bot: Привет! Я чат бот, чем могу помочь? (Напишите что ты можешь? для показа возможностей)", bot.answer("Привет", "a", formatnow));
+        assertEquals(formatnow+". Bot: Привет! Я чат бот, чем могу помочь? (Напишите что ты можешь? для показа возможностей)", bot.answer("привет", "a", formatnow));
+        assertEquals(formatnow+". Bot: Сложить/вычесть/умножить/поделить два числа, узнать погоду в городе(погода в город(именительный падеж))", bot.answer("Что ты можешь?", "a", formatnow));
+        assertEquals(formatnow+". Bot: Сложить/вычесть/умножить/поделить два числа, узнать погоду в городе(погода в город(именительный падеж))", bot.answer("что ты можешь?", "a", formatnow));
+        assertEquals(formatnow+". Bot: Результат суммы = 4.0", bot.answer("2+2", "a", formatnow));
+        assertEquals(formatnow+". Bot: ??", bot.answer("", "a", formatnow));
+        assertEquals(formatnow+". Bot: Результат вычитания = 0.0", bot.answer("2 - 2", "a", formatnow));
+        assertEquals(formatnow+". Bot: Результат умножения = 6.0", bot.answer("2*3", "a", formatnow));
+        assertEquals(formatnow+". Bot: Результат деления = 2.0", bot.answer("4:2", "a", formatnow));
+        assertEquals(formatnow+". Bot: Результат деления = Делить на 0 нельзя", bot.answer("4:0", "a", formatnow));
+        assertEquals(formatnow+". Bot: ??", bot.answer("что?", "a", formatnow));
 
     }
 }

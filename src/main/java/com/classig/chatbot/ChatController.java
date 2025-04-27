@@ -52,9 +52,9 @@ public class ChatController
 
             ChatArea.appendText(formatnow+". "+name+": "+text+"\n"); // выводим в окно диалога сообщение пользователя с его именем и датой время
 
-            formatnow = now.format(formatter); // текущее дата время
+            formatnow = now.format(formatter); // форматируем дату время
 
-            ChatArea.appendText(formatnow+". "+"Bot: "+bot.answer(text)+"\n"); // выводим ответ бота в окно диалога
+            ChatArea.appendText(bot.answer(text, name, formatnow)+"\n"); // выводим ответ бота в окно диалога
         }
         MessageText.clear(); // очищаем поле ввода сообщения
     }
@@ -65,14 +65,7 @@ public class ChatController
     @FXML
     void onSave()
     {
-        Bot.Messages.clear();
-        String s = ChatArea.getText();
-        String[] s1 = s.split("\n");
-        for (int i = 0; i < s1.length; i++)
-        {
-            bot.setMessages(s1[i]);
-        }
-        Bot.Save(name);
+        bot.Save(name);
     }
 
     /**
@@ -81,9 +74,12 @@ public class ChatController
     @FXML
     void onLoad()
     {
-        Bot.Load(name);
-        for (int i = 0; i < Bot.Messages.size(); i++)
-        ChatArea.appendText(bot.getMessages(i));
+        bot.Load(name);
+        for (int i = 0; i < bot.getMessagesSize(); i++)
+        {
+            ChatArea.appendText(bot.getMessage(i));
+        }
+        bot.getMessages().clear();
     }
 
     /**

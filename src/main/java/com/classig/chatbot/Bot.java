@@ -4,7 +4,6 @@ import com.github.prominence.openweathermap.api.OpenWeatherMapClient;
 import com.github.prominence.openweathermap.api.enums.Language;
 import com.github.prominence.openweathermap.api.enums.UnitSystem;
 import com.github.prominence.openweathermap.api.model.weather.Weather;
-import javafx.scene.control.TextArea;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -19,20 +18,30 @@ import java.util.regex.Pattern;
  * Класс Чат-бота наследует абстрактный класс бота
  */
 public class Bot implements IBot{
+    /**
+     * Список с историей сообщений
+     * Final - указывает что указатель на список не меняется, элементы могут меняться
+     */
 
-    public static final List<String> Messages = new ArrayList<>();
+    public final List<String> Messages = new ArrayList<>();
 
     @Override
-    public void setMessages(String s)
+    public int getMessagesSize()
     {
-        Messages.add(s);
+        return Messages.size();
     }
 
     @Override
-    public String getMessages(int i)
+    public String getMessage(int i)
     {
         return Messages.get(i);
     }
+
+    final public List<String> getMessages()
+    {
+        return Messages;
+    }
+
 
     /**
      * Загрузка apikey из файла
@@ -203,52 +212,71 @@ public class Bot implements IBot{
 
     /**
      * Ответ чат бота
-     * @param message - сообщение пользователя
+     * @param message сообщение пользователя
+     * @param name имя пользователя
+     * @param formatnow текущее время в формате yyyy-MM-dd HH:mm:ss
      * @return ответ чат бота
      */
     @Override
-    public String answer(String message)
+    public String answer(String message, String name, String formatnow)
     {
+
+        Messages.add(formatnow+". "+name+": "+message); // добавляем сообщение пользователя в историю сообщений
+
+        String fullans = formatnow+". "+"Bot: " + "??"; // инициализируем полный ответ бота как без совпадений
+
         for (int i = 0; i < patterns.size(); i++) // проверка по всем ключам
         {
             Matcher m = patterns.get(i).matcher(message); // сверяем сообщение пользователя с ключами
             if (m.matches()) // если есть совпадение
             {
+                String ansfunc = ""; // инициализируем строку для хранения ответа различных функций
                 List<String> variants = answers.get(i); // получаем варианты ответов
                 if (i == 2) // если пользователь запросил сложение двух чисел
                 {
-                    return variants.get(rnd.nextInt(variants.size()))+summ(message);
+                    ansfunc = summ(message);
                 }
                 if (i == 3) // если пользователь запросил умножение двух чисел
                 {
-                    return variants.get(rnd.nextInt(variants.size()))+mult(message);
+                    ansfunc = mult(message);
                 }
                 if (i == 4) // если пользователь запросил деление двух чисел
                 {
-                    return variants.get(rnd.nextInt(variants.size()))+div(message);
+                    ansfunc = div(message);
                 }
                 if (i == 5) // если пользователь запросил вычитание двух чисел
                 {
-                    return variants.get(rnd.nextInt(variants.size()))+minus(message);
+                    ansfunc = minus(message);
                 }
                 if (i == 6) // если пользователь запросил погоду в городе
                 {
-                    return variants.get(rnd.nextInt(variants.size()))+weathercity(message);
+                    ansfunc = weathercity(message);
                 }
-                return variants.get(rnd.nextInt(variants.size()));
+                if (!ansfunc.isEmpty()) // если пользователь запросил функцию
+                {
+                    fullans = formatnow + ". " + "Bot: " + variants.get(rnd.nextInt(variants.size())) + ansfunc; // формируем строку полного ответа
+                }
+                else // если пользователь не запросил функцию
+                {
+                    fullans = formatnow + ". " + "Bot: " + variants.get(rnd.nextInt(variants.size())); // формируем строку полного ответа
+                }
+                Messages.add(fullans); // добавляем полный ответ чат бота в историю сообщений
+                return fullans; // возвращаем полный ответ чат бота
             }
         }
-        return "??"; // если нет совпадений
+        Messages.add(fullans); // добавляем полный ответ чат бота если нет совпадений в историю сообщений
+        return fullans; // если нет совпадений
     }
 
     /**
      * Статический метод сохранения диалога в текстовый файл с именем пользователя+.txt
      * @param name имя пользователя
      */
-    public static void Save(String name)
+    @Override
+    public void Save(String name)
     {
         final String H_FILE = name+".txt"; // название файла
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(H_FILE, false))) // инициализация записи в файл
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(H_FILE, true))) // инициализация записи в файл
         {
             for (int i = 0; i < Messages.size(); i++)
             {
@@ -266,7 +294,8 @@ public class Bot implements IBot{
      * Статический метод загрузки диалога из текстового файла с именем пользователя+.txt
      * @param name имя пользователя
      */
-    public static void Load(String name)
+    @Override
+    public void Load(String name)
     {
         final String H_FILE = name+".txt"; // название файла
         if (Files.exists(Paths.get(H_FILE))) // если файл существует
