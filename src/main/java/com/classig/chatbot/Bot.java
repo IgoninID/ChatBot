@@ -25,18 +25,32 @@ public class Bot implements IBot{
 
     public final List<String> Messages = new ArrayList<>();
 
+    /**
+     * Получение размера истории сообщений
+     * @return Количество сообщений в истории сообщений
+     */
     @Override
     public int getMessagesSize()
     {
         return Messages.size();
     }
 
+    /**
+     * Получение сообщения из истории сообщений
+     * @param i индекс сообщения в списке
+     * @return Сообщение из истории сообщений
+     */
     @Override
     public String getMessage(int i)
     {
         return Messages.get(i);
     }
 
+    /**
+     * Получение истории сообщений
+     * @return Список с историей сообщений
+     */
+    @Override
     final public List<String> getMessages()
     {
         return Messages;
@@ -270,7 +284,7 @@ public class Bot implements IBot{
 
     /**
      * Статический метод сохранения диалога в текстовый файл с именем пользователя+.txt
-     * @param name имя пользователя
+     * @param name имя пользователя (имя файла без txt)
      */
     @Override
     public void Save(String name)
@@ -292,7 +306,7 @@ public class Bot implements IBot{
 
     /**
      * Статический метод загрузки диалога из текстового файла с именем пользователя+.txt
-     * @param name имя пользователя
+     * @param name имя пользователя (имя файла без txt)
      */
     @Override
     public void Load(String name)
