@@ -3,6 +3,8 @@ package com.classig.chatbot;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -36,10 +38,9 @@ public class ChatController
 
     /**
      * Нажатие на кнопку отправить
-     * @param event - событие
      */
     @FXML
-    void onSendClick(ActionEvent event)
+    void onSendClick()
     {
         String text = MessageText.getText(); // получаем сообщение пользвателя
         if (!text.isEmpty()) // строка не пустая
@@ -57,6 +58,19 @@ public class ChatController
             ChatArea.appendText(bot.answer(text, name, formatnow)+"\n"); // выводим ответ бота в окно диалога
         }
         MessageText.clear(); // очищаем поле ввода сообщения
+    }
+
+    /**
+     * Событие при нажатии на клавишу
+     * @param key - клавиша
+     */
+    @FXML
+    public void handle(KeyEvent key)
+    {
+        if (key.getCode() == KeyCode.ENTER)
+        {
+            onSendClick();
+        }
     }
 
     /**

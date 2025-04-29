@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -66,6 +67,7 @@ public class LoginController {
             Scene scene = new Scene(fxmlLoader.load(), 518.0, 365.0); // указываем размеры окна чата
             Stage stage = new Stage(); // выделяем память под окно чата
             stage.setTitle("Chat"); // заголовок окна чата
+            stage.getIcons().add(new Image("file:src/main/resources/com/classig/chatbot/iconbot.png")); // добавляем иконку
             stage.setScene(scene);
             // создаем событие при закрытии окна чата
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
