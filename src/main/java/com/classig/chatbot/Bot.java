@@ -18,12 +18,12 @@ import java.util.regex.Pattern;
  * Класс Чат-бота наследует абстрактный класс бота
  */
 public class Bot implements IBot{
+
     /**
      * Список с историей сообщений
      * Final - указывает что указатель на список не меняется, элементы могут меняться
      */
-
-    public final List<String> Messages = new ArrayList<>();
+    private final List<String> Messages = new ArrayList<>();
 
     /**
      * Получение размера истории сообщений
@@ -62,7 +62,7 @@ public class Bot implements IBot{
      * @param namef - имя файла с api ключом
      * @return api ключ
      */
-    String loadapi(String namef)
+    private String loadapi(String namef)
     {
         if (Files.exists(Paths.get(namef))) // если файл существует
         {
@@ -88,7 +88,7 @@ public class Bot implements IBot{
     /**
      * Клиент для запросов в OpenWeather
      */
-    OpenWeatherMapClient openWeatherMapClient = new OpenWeatherMapClient(API_KEY);
+    private final OpenWeatherMapClient openWeatherMapClient = new OpenWeatherMapClient(API_KEY);
 
     /**
      * Список с ключами для сообщений пользователя
